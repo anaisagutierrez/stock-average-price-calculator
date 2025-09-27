@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stock Average Price Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    input, button {
+      margin: 5px 0;
+      padding: 8px;
+      width: 100%;
+    }
+
+    button {
+      font-weight: 400; /* Lighter button text */
+      width: 150px;
+    }
+
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>📉 Stock Average Price Calculator</h2>
+
+  <label>Current Shares Owned:</label>
+  <input type="number" id="currentShares" placeholder="e.g. 1">
+
+  <label>Average Price of Current Shares ($):</label>
+  <input type="number" id="averagePrice" placeholder="e.g. 24">
+
+  <label>Current Market Price ($):</label>
+  <input type="number" id="marketPrice" placeholder="e.g. 3">
+
+  <label>Additional Shares to Buy:</label>
+  <input type="number" id="additionalShares" placeholder="e.g. 10">
+
+  <button onclick="calculateAverage()">Calculate</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculateAverage() {
+      const currentShares = parseFloat(document.getElementById('currentShares').value);
+      const averagePrice = parseFloat(document.getElementById('averagePrice').value);
+      const marketPrice = parseFloat(document.getElementById('marketPrice').value);
+      const additionalShares = parseFloat(document.getElementById('additionalShares').value);
+
+      if (isNaN(currentShares) || isNaN(averagePrice) || isNaN(marketPrice) || isNaN(additionalShares)) {
+        document.getElementById('result').innerHTML = "⚠️ Please fill in all fields with valid numbers.";
+        return;
+      }
+
+      const totalCost = (currentShares * averagePrice) + (additionalShares * marketPrice);
+      const totalShares = currentShares + additionalShares;
+      const newAverage = totalCost / totalShares;
+      const additionalCost = additionalShares * marketPrice;
+      const currentLoss = (marketPrice - averagePrice) * currentShares;
+
+      document.getElementById('result').innerHTML =
+        `🧮 New Average Price: <strong>$${newAverage.toFixed(2)}</strong> per share<br>` +
+        `💰 Total Cost for New Shares: <strong>$${additionalCost.toFixed(2)}</strong><br>` +
+        `📉 Current Unrealized Loss: <strong>$${currentLoss.toFixed(2)}</strong>`;
+    }
+  </script>
+</body>
+</html>
